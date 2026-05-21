@@ -3,6 +3,8 @@ import React from 'react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Initiatives from './pages/Initiatives';
+import About from './pages/About';
+import Contact from './pages/Contact';
 import PlaceholderPage from './pages/PlaceholderPage';
 import { Login, AdminDashboard } from './pages/Admin';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -23,7 +25,7 @@ export default function App() {
             {/* Public Routes */}
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
-              <Route path="about" element={<PlaceholderPage title="About Us" description="Learn about NACETEM's history and mission." />} />
+              <Route path="about" element={<About />} />
               <Route path="research" element={<PlaceholderPage title="Research" description="Our ongoing research initiatives." />} />
               <Route path="capacity-building" element={<PlaceholderPage title="Capacity Building" description="Training public and private sector stakeholders." />} />
               <Route path="gallery" element={<PlaceholderPage title="Gallery" description="Visual highlights from our events and programs." />} />
@@ -32,7 +34,7 @@ export default function App() {
               <Route path="initiatives" element={<Initiatives />} />
               <Route path="news" element={<PlaceholderPage title="News & Events" description="Latest updates from NACETEM." />} />
               <Route path="publications" element={<PlaceholderPage title="Publications" description="Research publications and policy briefs." />} />
-              <Route path="contact" element={<PlaceholderPage title="Contact Us" description="Get in touch with NACETEM." />} />
+              <Route path="contact" element={<Contact />} />
               <Route path="*" element={<PlaceholderPage title="Page Not Found" description="The requested page could not be found." />} />
             </Route>
 

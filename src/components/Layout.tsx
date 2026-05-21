@@ -2,6 +2,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronRight, Mail, Twitter, Facebook, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
+import { NacetemLogo } from './NacetemLogo';
 
 export default function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,13 +39,8 @@ export default function Layout() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3">
-              <div className="flex flex-col items-center justify-center w-8 h-8 bg-emerald-600 text-white font-bold rounded-sm leading-tight text-center">
-                <span className="text-xs tracking-wider">NCM</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-slate-900 leading-none tracking-widest uppercase">NACETEM</h1>
-              </div>
+            <Link to="/" className="hover:opacity-90 transition-opacity pb-1 block">
+              <NacetemLogo />
             </Link>
 
             {/* Desktop Navigation */}
@@ -112,12 +108,7 @@ export default function Layout() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {/* Logo space */}
             <div className="space-y-6">
-              <div className="flex items-center space-x-3">
-                <div className="flex flex-col items-center justify-center w-8 h-8 bg-white text-emerald-600 font-bold rounded-sm leading-tight text-center">
-                   <span className="text-xs">NCM</span>
-                </div>
-                <h2 className="text-xl font-bold text-white tracking-widest uppercase">NACETEM</h2>
-              </div>
+              <NacetemLogo variant="light" />
               <p className="text-sm text-emerald-50 max-w-xs leading-relaxed opacity-90">
                 NACETEM is a national institution advancing science, technology and innovation for evidence-based development.
               </p>

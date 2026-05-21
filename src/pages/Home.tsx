@@ -132,11 +132,11 @@ export default function Home() {
                 img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
               }
             ].map((initiative, idx) => (
-              <div key={idx} className="bg-white border border-slate-200 group flex flex-col p-4">
-                <div className="h-48 overflow-hidden mb-4 border border-slate-100">
+              <div key={idx} className="bg-white border-[2.11px] border-slate-200 rounded-[11px] group flex flex-col p-4">
+                <div className="h-48 overflow-hidden mb-4 border border-slate-100 rounded-[11px]">
                   <img src={initiative.img} alt={initiative.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 grayscale hover:grayscale-0" />
                 </div>
-                <div className="flex-1 flex flex-col">
+                <div className="flex-1 flex flex-col pt-2">
                   <h4 className="text-lg font-serif text-slate-900 mb-2">{initiative.title}</h4>
                   <p className="text-slate-500 mb-4 flex-1 text-xs leading-relaxed">{initiative.desc}</p>
                   <Link to={initiative.link} className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-slate-900 hover:text-emerald-700 transition-colors border-b border-transparent hover:border-emerald-700 pb-1 self-start">
@@ -484,6 +484,46 @@ export default function Home() {
                 </div>
               ))}
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action Section */}
+      <section className="py-24 bg-emerald-900 relative overflow-hidden text-center text-white">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <h2 className="text-3xl sm:text-5xl font-serif mb-6 leading-tight">Ready to collaborate on Innovation?</h2>
+          <p className="text-emerald-100 text-lg mb-10 leading-relaxed">
+            Join NACETEM's programmes and initiatives to drive sustainable development and technological advancement in Nigeria.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/contact" className="inline-flex items-center justify-center px-8 py-4 bg-gold text-slate-900 font-bold text-sm tracking-widest uppercase hover:bg-white hover:text-emerald-900 transition-colors rounded-sm">
+              Partner With Us <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+            <Link to="/about" className="inline-flex items-center justify-center px-8 py-4 bg-transparent border border-emerald-500 text-white font-bold text-sm tracking-widest uppercase hover:bg-emerald-800 transition-colors rounded-sm">
+              Learn More
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* YouTube Video Section */}
+      <section className="py-24 bg-slate-50 border-t border-slate-200">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-serif text-slate-900 mb-4">Watch Our Impact</h2>
+            <p className="text-slate-600">Discover how NACETEM is shaping the STI landscape across the nation.</p>
+          </div>
+          <div className="relative w-full aspect-video rounded-[11px] overflow-hidden shadow-2xl border-[2.11px] border-slate-200 bg-slate-900">
+            <iframe 
+              className="absolute top-0 left-0 w-full h-full" 
+              src="https://www.youtube.com/embed/5Peo-ivmupE?si=z8Q4k7-B2qV_p3_-" 
+              title="YouTube video player" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
       </section>
