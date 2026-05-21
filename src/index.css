@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-green: #006633;
+  --color-gold: #C5A059;
+  --color-ink: #1A1A1A;
+  --color-paper: #FDFDFB;
+  --color-line: rgba(26, 26, 26, 0.1);
+
+  --font-serif: "Georgia", ui-serif, serif;
+  --font-sans: "Helvetica Neue", Arial, ui-sans-serif, system-ui, sans-serif;
+  
+  --color-emerald-50: #f0fdf4;
+  --color-emerald-100: #dcfce7;
+  --color-emerald-200: #bbf7d0;
+  --color-emerald-300: #86efac;
+  --color-emerald-400: #4ade80;
+  --color-emerald-50: #F0F0EE;
+  --color-emerald-500: var(--color-green);
+  --color-emerald-600: var(--color-green);
+  --color-emerald-700: var(--color-green);
+  --color-emerald-800: #004d26;
+  --color-emerald-900: var(--color-ink);
+  --color-emerald-950: var(--color-ink);
+
+  --color-slate-50: var(--color-paper);
+  --color-slate-100: #F8F7F2;
+  --color-slate-200: rgba(26, 26, 26, 0.1);
+  --color-slate-300: var(--color-line);
+  --color-slate-400: rgba(26, 26, 26, 0.4);
+  --color-slate-500: rgba(26, 26, 26, 0.6);
+  --color-slate-600: rgba(26, 26, 26, 0.8);
+  --color-slate-700: var(--color-ink);
+  --color-slate-800: var(--color-ink);
+  --color-slate-900: var(--color-ink);
+  --color-slate-950: var(--color-ink);
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
