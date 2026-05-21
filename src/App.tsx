@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Initiatives from './pages/Initiatives';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import News from './pages/News';
 import PlaceholderPage from './pages/PlaceholderPage';
 import { Login, AdminDashboard } from './pages/Admin';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -32,7 +33,7 @@ export default function App() {
               <Route path="events" element={<PlaceholderPage title="Events" description="Upcoming and past events." />} />
               <Route path="psr-test" element={<PlaceholderPage title="PSR Test Portal" description="Public Service Rules Exam Preparation." />} />
               <Route path="initiatives" element={<Initiatives />} />
-              <Route path="news" element={<PlaceholderPage title="News & Events" description="Latest updates from NACETEM." />} />
+              <Route path="news" element={<News />} />
               <Route path="publications" element={<PlaceholderPage title="Publications" description="Research publications and policy briefs." />} />
               <Route path="contact" element={<Contact />} />
               <Route path="*" element={<PlaceholderPage title="Page Not Found" description="The requested page could not be found." />} />
