@@ -6,6 +6,7 @@ import Initiatives from './pages/Initiatives';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import News from './pages/News';
+import CapacityBuilding from './pages/CapacityBuilding';
 import PlaceholderPage from './pages/PlaceholderPage';
 import { Login, AdminDashboard } from './pages/Admin';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -28,7 +29,7 @@ export default function App() {
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
               <Route path="research" element={<PlaceholderPage title="Research" description="Our ongoing research initiatives." />} />
-              <Route path="capacity-building" element={<PlaceholderPage title="Capacity Building" description="Training public and private sector stakeholders." />} />
+              <Route path="capacity-building" element={<CapacityBuilding />} />
               <Route path="gallery" element={<PlaceholderPage title="Gallery" description="Visual highlights from our events and programs." />} />
               <Route path="events" element={<PlaceholderPage title="Events" description="Upcoming and past events." />} />
               <Route path="psr-test" element={<PlaceholderPage title="PSR Test Portal" description="Public Service Rules Exam Preparation." />} />
