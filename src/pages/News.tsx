@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, MapPin, ChevronRight, BookOpen, Users, Activity, Monitor, ArrowUpRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Calendar, MapPin, ChevronRight, ChevronLeft, BookOpen, Users, Activity, Monitor, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
 
@@ -49,6 +49,27 @@ const newsArticles = [
     date: "September 20, 2026",
     content: "NACETEM continues to strengthen Nigeria’s Science, Technology, and Innovation intelligence systems through the development of STI indicators, innovation surveys, and research analytics platforms. The Centre’s STI Dashboard initiative supports evidence-based national planning, research data management, innovation ecosystem monitoring, policy evaluation, and national competitiveness analysis. The platform contributes significantly to strategic decision-making and policy coordination in Nigeria.",
     img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    title: "NACETEM Launches New Innovation Hub in Abuja",
+    category: "Infrastructure",
+    date: "September 10, 2026",
+    content: "The National Centre for Technology Management has officially opened its new Innovation Hub in Abuja, providing state-of-the-art facilities for researchers, tech entrepreneurs, and policymakers to collaborate on emerging technologies.",
+    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    title: "National Conference on Science and Technology Policy Concludes",
+    category: "Conferences",
+    date: "August 25, 2026",
+    content: "The annual National Conference on Science and Technology Policy, hosted by NACETEM, concluded today with far-reaching recommendations for enhancing indigenous technology development and digital inclusion across Nigeria.",
+    img: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=800"
+  },
+  {
+    title: "NACETEM Partners with International Tech Firms to Boost Local Capacity",
+    category: "Partnerships",
+    date: "August 12, 2026",
+    content: "In a bid to enhance local technological capacity, NACETEM has formalized partnerships with several leading international tech firms. The agreements will provide advanced training programs for Nigerian youth in software engineering and data science.",
+    img: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800"
   }
 ];
 
@@ -74,6 +95,17 @@ const researchHighlights = [
 
 export default function News() {
   const { events } = useData();
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 6;
+
+  const totalPages = Math.ceil(newsArticles.length / articlesPerPage);
+  const startIndex = (currentPage - 1) * articlesPerPage;
+  const currentArticles = newsArticles.slice(startIndex, startIndex + articlesPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="bg-slate-50 min-h-screen font-sans overflow-hidden">
@@ -106,7 +138,7 @@ export default function News() {
         </div>
       </section>
 
-      {/* 2. Featured Stories */}
+      {/* 2. News Grid */}
       <section className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -116,44 +148,68 @@ export default function News() {
              </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Main Featured Article (First item) */}
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="lg:col-span-1 group cursor-pointer border border-slate-200 rounded-[11px] overflow-hidden bg-slate-50 hover:border-emerald-500 transition-colors">
-              <div className="h-64 sm:h-80 overflow-hidden relative">
-                <img src={newsArticles[0].img} alt={newsArticles[0].title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
-                <div className="absolute top-4 left-4 bg-gold text-slate-900 text-[10px] font-bold uppercase tracking-widest px-3 py-1 pb-1">{newsArticles[0].category}</div>
-              </div>
-              <div className="p-8">
-                <div className="text-xs text-slate-500 mb-4 font-bold tracking-widest uppercase">{newsArticles[0].date}</div>
-                <h4 className="text-2xl font-serif text-slate-900 mb-4 group-hover:text-emerald-700 transition-colors">{newsArticles[0].title}</h4>
-                <p className="text-slate-600 text-sm leading-relaxed mb-6">{newsArticles[0].content}</p>
-                <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-emerald-700">
-                  Read Full Story <ArrowRight className="h-4 w-4 ml-1" />
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Other Articles List */}
-            <div className="space-y-8 flex flex-col justify-between">
-              {newsArticles.slice(1, 4).map((article, idx) => (
-                <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="flex gap-6 group cursor-pointer border-b border-slate-200 pb-8 last:border-0 last:pb-0">
-                  <div className="w-1/3 aspect-[4/3] rounded-[6px] overflow-hidden shrink-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <AnimatePresence mode="popLayout">
+              {currentArticles.map((article, idx) => (
+                <motion.div 
+                  key={article.title} 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="group cursor-pointer border border-slate-200 rounded-[11px] overflow-hidden bg-slate-50 hover:border-emerald-500 transition-colors flex flex-col h-full"
+                >
+                  <div className="h-48 sm:h-56 overflow-hidden relative shrink-0">
                     <img src={article.img} alt={article.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
+                    <div className="absolute top-4 left-4 bg-gold text-slate-900 text-[10px] font-bold uppercase tracking-widest px-3 py-1 pb-1">{article.category}</div>
                   </div>
-                  <div className="flex-1 flex flex-col justify-center">
-                    <div className="flex items-center gap-3 mb-2">
-                      <span className="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-[4px] font-bold uppercase tracking-widest leading-relaxed mt-1">{article.category}</span>
-                      <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">{article.date}</span>
-                    </div>
-                    <h4 className="text-lg font-serif text-slate-900 group-hover:text-emerald-700 transition-colors mb-2 line-clamp-2">{article.title}</h4>
-                    <span className="inline-flex items-center text-[10px] font-bold uppercase tracking-widest text-emerald-700 mt-2">
-                       Read Story <ChevronRight className="h-3 w-3 ml-1" />
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="text-xs text-slate-500 mb-3 font-bold tracking-widest uppercase">{article.date}</div>
+                    <h4 className="text-xl font-serif text-slate-900 mb-3 leading-snug group-hover:text-emerald-700 transition-colors">{article.title}</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3 flex-1">{article.content}</p>
+                    <span className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-emerald-700 mt-auto">
+                      Read Story <ArrowRight className="h-4 w-4 ml-1" />
                     </span>
                   </div>
                 </motion.div>
               ))}
-            </div>
+            </AnimatePresence>
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="mt-16 flex justify-center items-center space-x-2">
+              <button 
+                onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                disabled={currentPage === 1}
+                className={`p-2 rounded-[6px] border ${currentPage === 1 ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-emerald-500'} transition-colors`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              
+              {[...Array(totalPages)].map((_, i) => (
+                <button 
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
+                  className={`w-10 h-10 rounded-[6px] border text-sm font-bold transition-all duration-200 ${
+                    currentPage === i + 1 
+                      ? 'bg-emerald-600 border-emerald-600 text-white shadow-md' 
+                      : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-emerald-500'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+
+              <button 
+                onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                disabled={currentPage === totalPages}
+                className={`p-2 rounded-[6px] border ${currentPage === totalPages ? 'border-slate-200 text-slate-300 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-emerald-500'} transition-colors`}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronRight, Mail, Twitter, Facebook, ExternalLink } from 'lucide-react';
+import { Menu, X, ChevronRight, ChevronDown, Mail, Twitter, Facebook, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '../lib/utils';
 import { NacetemLogo } from './NacetemLogo';
@@ -11,15 +11,21 @@ export default function Layout() {
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },
-    { name: 'Research', href: '/research' },
+    { 
+      name: 'Research', 
+      href: '/research',
+      children: [
+        { name: 'Seminar Series', href: '/research/seminar-series' }
+      ]
+    },
     { name: 'Capacity Building', href: '/capacity-building' },
-    { name: 'Gallery', href: '/gallery' },
+    { name: 'PSR Test', href: '/psr-test' },
     { name: 'Events', href: '/events' },
     { name: 'News', href: '/news' },
     { name: 'Contact', href: '/contact' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-900 bg-slate-50">
@@ -46,18 +52,43 @@ export default function Layout() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={cn(
-                    'py-2 text-xs font-bold uppercase tracking-wider transition-colors border-b-2',
-                    isActive(item.href)
-                      ? 'border-emerald-600 text-slate-900 opacity-100'
-                      : 'border-transparent text-slate-900 opacity-70 hover:opacity-100 hover:border-slate-300'
+                <div key={item.name} className="relative group">
+                  <Link
+                    to={item.href}
+                    className={cn(
+                      'text-xs font-bold uppercase tracking-wider transition-colors inline-flex items-center',
+                      item.name === 'PSR Test'
+                        ? `px-4 py-2 rounded shadow-sm border ${isActive(item.href) ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600'}`
+                        : cn(
+                            'py-2 border-b-2',
+                            isActive(item.href) && !item.children
+                              ? 'border-emerald-600 text-slate-900 opacity-100'
+                              : 'border-transparent text-slate-900 opacity-70 hover:opacity-100 hover:border-slate-300'
+                          )
+                    )}
+                  >
+                    {item.name}
+                    {item.children && (
+                      <ChevronDown className="w-3 h-3 ml-1 mb-[2px]" />
+                    )}
+                  </Link>
+
+                  {item.children && (
+                    <div className="absolute left-0 top-full mt-2 w-48 bg-white border border-slate-200 shadow-lg rounded-sm opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                      <div className="py-2">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.name}
+                            to={child.href}
+                            className="block px-4 py-2 text-xs font-bold text-slate-700 uppercase tracking-wider hover:bg-emerald-50 hover:text-emerald-700"
+                          >
+                            {child.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
                   )}
-                >
-                  {item.name}
-                </Link>
+                </div>
               ))}
             </nav>
 
@@ -78,19 +109,39 @@ export default function Layout() {
           <div className="md:hidden bg-white border-b border-slate-200">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={cn(
-                    'block px-3 py-2 rounded-md text-base font-medium',
-                    isActive(item.href)
-                      ? 'bg-emerald-50 text-emerald-800'
-                      : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-50'
+                <div key={item.name}>
+                  <Link
+                    to={item.href}
+                    onClick={() => {
+                      if (!item.children) setIsMobileMenuOpen(false);
+                    }}
+                    className={cn(
+                      'flex items-center justify-between px-3 py-2 rounded-md text-base font-medium',
+                      item.name === 'PSR Test' 
+                        ? 'bg-emerald-600 text-white shadow-sm mt-2 font-bold tracking-wide uppercase text-sm'
+                        : isActive(item.href) && !item.children
+                          ? 'bg-emerald-50 text-emerald-800'
+                          : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-50'
+                    )}
+                  >
+                    {item.name}
+                    {item.children && <ChevronDown className="h-4 w-4" />}
+                  </Link>
+                  {item.children && (
+                    <div className="pl-4 pr-3 py-1 space-y-1">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.name}
+                          to={child.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className="block px-3 py-2 text-sm font-medium text-slate-500 hover:text-emerald-700 hover:bg-slate-50 rounded-md"
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
                   )}
-                >
-                  {item.name}
-                </Link>
+                </div>
               ))}
             </div>
           </div>
