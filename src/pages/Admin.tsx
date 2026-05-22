@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
 import { useNavigate } from 'react-router-dom';
-import { Lock, FileText, Users, Settings, LogOut, LayoutDashboard, Search, Bell, Image as ImageIcon, Calendar, Plus, Trash2 } from 'lucide-react';
+import { Lock, FileText, Users, Settings, LogOut, LayoutDashboard, Search, Bell, Image as ImageIcon, Calendar, Plus, Trash2, Menu, X } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -74,9 +75,11 @@ export function AdminDashboard() {
   const { gallery, addGalleryImage, removeGalleryImage, events, addEvent, removeEvent, isLoading } = useData();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Overview');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const [newImageUrl, setNewImageUrl] = useState('');
+  const [newImageFile, setNewImageFile] = useState<File | null>(null);
   const [newImageTitle, setNewImageTitle] = useState('');
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   const [newEventTitle, setNewEventTitle] = useState('');
   const [newEventDate, setNewEventDate] = useState('');
@@ -88,16 +91,50 @@ export function AdminDashboard() {
     navigate('/admin/login');
   };
 
-  const handleAddImage = (e: React.FormEvent) => {
+  const handleAddImage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (newImageUrl && newImageTitle) {
-      addGalleryImage({
-        id: Date.now().toString(),
-        url: newImageUrl,
-        title: newImageTitle,
-      });
-      setNewImageUrl('');
-      setNewImageTitle('');
+    if (newImageFile && newImageTitle) {
+      try {
+        setIsUploadingImage(true);
+        let imageUrl = '';
+        
+        if (supabase) {
+          const fileExt = newImageFile.name.split('.').pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `${fileName}`;
+
+          const { error: uploadError, data } = await supabase.storage
+            .from('gallery')
+            .upload(filePath, newImageFile);
+
+          if (uploadError) {
+            throw uploadError;
+          }
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('gallery')
+            .getPublicUrl(filePath);
+
+          imageUrl = publicUrl;
+        } else {
+          // Fallback if supabase isn't configged
+          imageUrl = URL.createObjectURL(newImageFile);
+        }
+
+        addGalleryImage({
+          id: Date.now().toString(),
+          url: imageUrl,
+          title: newImageTitle,
+        });
+        
+        setNewImageFile(null);
+        setNewImageTitle('');
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('Failed to upload image. Make sure the storage bucket "gallery" exists and is public.');
+      } finally {
+        setIsUploadingImage(false);
+      }
     }
   };
 
@@ -122,26 +159,44 @@ export function AdminDashboard() {
     { icon: LayoutDashboard, label: 'Overview' },
     { icon: ImageIcon, label: 'Gallery Manager' },
     { icon: Calendar, label: 'Events Manager' },
-    { icon: Users, label: 'User Management' },
-    { icon: FileText, label: 'Content Manager' },
+    { icon: FileText, label: 'News Manager' },
     { icon: Settings, label: 'System Settings' },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row h-screen overflow-hidden relative">
+      
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col border-r border-slate-800">
-        <div className="p-6 border-b border-slate-800">
-          <h2 className="text-xl font-bold tracking-widest text-white uppercase">NACETEM</h2>
-          <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-1">Admin Dashboard</p>
+      <aside className={`fixed md:relative inset-y-0 left-0 w-64 bg-slate-900 text-white flex flex-col border-r border-slate-800 z-50 transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center shrink-0">
+          <div>
+            <h2 className="text-xl font-bold tracking-widest text-white uppercase">NACETEM</h2>
+            <p className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mt-1">Admin Dashboard</p>
+          </div>
+          <button className="md:hidden text-slate-400 hover:text-white transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+            <X className="w-6 h-6" />
+          </button>
         </div>
-        <nav className="flex-1 py-6 px-4 space-y-1">
+        <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
           {menuItems.map((item, idx) => (
             <button 
               key={idx}
-              onClick={() => setActiveTab(item.label)}
-              className={`w-full flex items-center px-4 py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
-                activeTab === item.label ? 'bg-emerald-600 text-white' : 'hover:bg-slate-800 hover:text-white'
+              onClick={() => {
+                setActiveTab(item.label);
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full flex items-center px-4 py-3.5 text-xs font-bold uppercase tracking-wider transition-all duration-200 rounded-[6px] ${
+                activeTab === item.label 
+                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-900/20' 
+                  : 'text-slate-200 hover:bg-slate-800 hover:text-white'
               }`}
             >
               <item.icon className="h-4 w-4 mr-3" />
@@ -149,10 +204,10 @@ export function AdminDashboard() {
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-slate-800">
+        <div className="p-4 border-t border-slate-800 shrink-0">
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+            className="w-full flex items-center px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-800 transition-colors rounded-[6px]"
           >
             <LogOut className="h-4 w-4 mr-3" />
             Sign Out
@@ -161,20 +216,23 @@ export function AdminDashboard() {
       </aside>
 
       {/* Main Panel */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
+      <main className="flex-1 flex flex-col h-full overflow-hidden w-full">
         {/* Top Header */}
-        <header className="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shrink-0">
-          <div className="flex items-center w-96">
-            <div className="relative w-full">
+        <header className="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 sm:px-8 shrink-0">
+          <div className="flex items-center gap-4 w-full md:w-96">
+            <button className="md:hidden text-slate-600 p-1 -ml-1 border border-slate-200 rounded-[6px] hover:bg-slate-50 transition-colors" onClick={() => setIsMobileMenuOpen(true)}>
+              <Menu className="w-5 h-5" />
+            </button>
+            <div className="relative w-full max-w-sm hidden sm:block">
               <Search className="h-4 w-4 absolute left-3 top-2.5 text-slate-400" />
               <input 
                 type="text" 
                 placeholder="Search resources..." 
-                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-[6px] text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
               />
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 shrink-0">
             <button className="text-slate-400 hover:text-slate-600 relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span>
@@ -186,7 +244,7 @@ export function AdminDashboard() {
         </header>
 
         {/* Dashboard Content */}
-        <div className="flex-1 overflow-auto p-8 bg-slate-50 relative">
+        <div className="flex-1 overflow-auto p-4 sm:p-8 bg-slate-50 relative">
           {isLoading && (
             <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
               <div className="flex flex-col items-center">
@@ -210,11 +268,11 @@ export function AdminDashboard() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div className="bg-white p-6 border border-slate-200 flex items-center space-x-4">
                   <div className="h-12 w-12 bg-slate-50 border border-slate-100 text-slate-600 flex items-center justify-center">
-                    <Users className="h-5 w-5" />
+                    <FileText className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Total Users</p>
-                    <h3 className="text-2xl font-serif text-slate-900">1,248</h3>
+                    <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">News Articles</p>
+                    <h3 className="text-2xl font-serif text-slate-900">24</h3>
                   </div>
                 </div>
                 <div className="bg-white p-6 border border-slate-200 flex items-center space-x-4">
@@ -236,48 +294,6 @@ export function AdminDashboard() {
                   </div>
                 </div>
               </div>
-
-              <div className="bg-white border border-slate-200 overflow-hidden">
-                <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-white">
-                  <h2 className="font-serif text-lg text-slate-900">Recent Registrations</h2>
-                  <button className="text-[10px] text-slate-500 font-bold uppercase tracking-widest hover:text-emerald-700">View All</button>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-sm">
-                    <thead>
-                      <tr className="border-b border-slate-200 text-slate-500">
-                        <th className="px-6 py-4 font-medium text-[10px] uppercase tracking-widest">Name</th>
-                        <th className="px-6 py-4 font-medium text-[10px] uppercase tracking-widest">Email</th>
-                        <th className="px-6 py-4 font-medium text-[10px] uppercase tracking-widest">Role</th>
-                        <th className="px-6 py-4 font-medium text-[10px] uppercase tracking-widest">Date Joined</th>
-                        <th className="px-6 py-4 font-medium text-[10px] uppercase tracking-widest text-right">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 text-slate-700">
-                      {[
-                        { name: "Dr. Adebayo Johnson", email: "adebayo.j@nacetem.gov.ng", role: "Researcher", date: "Oct 24, 2026", status: "Active" },
-                        { name: "Sarah Oluwaseun", email: "s.oluwaseun@nacetem.gov.ng", role: "Content Editor", date: "Oct 21, 2026", status: "Active" },
-                        { name: "System Administrator", email: "adminacetem@gmail.com", role: "Superadmin", date: "Jan 10, 2026", status: "Active" },
-                        { name: "Michael Obi", email: "m.obi@nacetem.gov.ng", role: "Guest User", date: "Oct 15, 2026", status: "Pending" }
-                      ].map((user, i) => (
-                        <tr key={i} className="hover:bg-slate-50 transition-colors">
-                          <td className="px-6 py-4 font-bold text-slate-900">{user.name}</td>
-                          <td className="px-6 py-4 text-slate-500 text-xs">{user.email}</td>
-                          <td className="px-6 py-4"><span className="px-2 py-1 border border-slate-200 bg-white text-slate-600 text-[10px] font-bold uppercase tracking-widest">{user.role}</span></td>
-                          <td className="px-6 py-4 text-slate-500 text-xs">{user.date}</td>
-                          <td className="px-6 py-4 text-right">
-                            <span className={`px-2 py-1 text-[10px] font-bold uppercase tracking-widest border ${
-                              user.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
-                            }`}>
-                              {user.status}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </>
           )}
 
@@ -285,29 +301,30 @@ export function AdminDashboard() {
             <div className="space-y-8">
               <div className="bg-white border border-slate-200 p-6">
                 <h2 className="text-lg font-serif text-slate-900 mb-4">Add New Image</h2>
-                <form onSubmit={handleAddImage} className="flex flex-col sm:flex-row gap-4">
-                  <div className="flex-1">
+                <form onSubmit={handleAddImage} className="flex flex-col sm:flex-row gap-4 items-end">
+                  <div className="flex-1 w-full">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Upload Photo</label>
                     <input 
-                      type="url" 
-                      placeholder="Image URL (e.g. Unsplash URL)"
-                      value={newImageUrl}
-                      onChange={(e) => setNewImageUrl(e.target.value)}
-                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700"
+                      type="file" 
+                      accept="image/*"
+                      onChange={(e) => setNewImageFile(e.target.files?.[0] || null)}
+                      className="w-full px-4 py-2 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
                       required
                     />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
+                    <label className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">Image Title</label>
                     <input 
                       type="text" 
                       placeholder="Image Title"
                       value={newImageTitle}
                       onChange={(e) => setNewImageTitle(e.target.value)}
-                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700"
+                      className="w-full px-4 py-2.5 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
                       required
                     />
                   </div>
-                  <button type="submit" className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center transition-colors">
-                    <Plus className="w-4 h-4 mr-2" /> Add Image
+                  <button type="submit" disabled={isUploadingImage} className={`bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center transition-colors ${isUploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                    {isUploadingImage ? 'Uploading...' : <><Plus className="w-4 h-4 mr-2" /> Add Image</>}
                   </button>
                 </form>
               </div>
@@ -419,7 +436,15 @@ export function AdminDashboard() {
             </div>
           )}
 
-          {activeTab !== 'Overview' && activeTab !== 'Gallery Manager' && activeTab !== 'Events Manager' && (
+          {activeTab === 'News Manager' && (
+            <div className="bg-white border border-slate-200 p-16 text-center rounded-[11px]">
+              <FileText className="h-12 w-12 text-slate-300 mx-auto mb-4" />
+              <h2 className="text-xl font-serif text-slate-900 mb-2">News Content Manager</h2>
+              <p className="text-sm text-slate-500 max-w-md mx-auto">This module is being set up to allow adding, editing, and managing news articles and publications.</p>
+            </div>
+          )}
+
+          {activeTab !== 'Overview' && activeTab !== 'Gallery Manager' && activeTab !== 'Events Manager' && activeTab !== 'News Manager' && (
             <div className="bg-white border border-slate-200 p-12 text-center text-slate-500">
               <p className="text-sm">Module <strong className="text-slate-900 font-serif">{activeTab}</strong> is currently being developed according to the latest administrative directives.</p>
             </div>
