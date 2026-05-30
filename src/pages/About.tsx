@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Target, Lightbulb, Shield, Users, Leaf, Zap, BookOpen, Monitor, Award, Briefcase, ChevronRight, CheckCircle2, Globe, Building2, GraduationCap, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -25,7 +26,7 @@ export default function About() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.headquartersImage} 
             alt="NACETEM Office" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -44,7 +45,7 @@ export default function About() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white leading-tight mb-6">
               Driving Science, Technology and Innovation for National Development
             </h1>
-            <p className="text-lg text-slate-300 mb-10 leading-relaxed">
+            <p className="text-lg text-slate-100/90 mb-10 leading-relaxed">
               The National Centre for Technology Management (NACETEM) is Nigeria's foremost institution for Science, Technology, and Innovation (STI) policy research, technology management, innovation systems development, and strategic capacity building.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -92,10 +93,10 @@ export default function About() {
               initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeInUp}
               className="lg:w-1/2 w-full"
             >
-              <div className="relative aspect-square sm:aspect-[4/3] rounded-[11px] overflow-hidden border-[2.11px] border-slate-200">
+              <div className="relative aspect-square sm:aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
                 <img 
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" 
-                  alt="Team discussion" 
+                  src={assets.bayelsaNewsImage} 
+                  alt="NACETEM institutional engagement" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -108,22 +109,22 @@ export default function About() {
       <section className="py-24 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-800 border border-slate-700 p-10 rounded-[11px]">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-800 border border-slate-700/60 p-10 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-emerald-900/50 flex items-center justify-center rounded-full mb-6">
                 <Target className="h-8 w-8 text-emerald-400" />
               </div>
               <h3 className="text-2xl font-serif mb-4 text-gold">Our Vision</h3>
-              <p className="text-slate-300 leading-relaxed text-lg">
+              <p className="text-slate-100/90 leading-relaxed text-lg">
                 To be a globally recognized centre of excellence in technology management, innovation policy research, and strategic development for national transformation.
               </p>
             </motion.div>
             
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-800 border border-slate-700 p-10 rounded-[11px]">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-800 border border-slate-700/60 p-10 rounded-2xl shadow-lg">
               <div className="w-16 h-16 bg-emerald-900/50 flex items-center justify-center rounded-full mb-6">
                 <Globe className="h-8 w-8 text-emerald-400" />
               </div>
               <h3 className="text-2xl font-serif mb-4 text-gold">Our Mission</h3>
-              <p className="text-slate-300 leading-relaxed text-lg">
+              <p className="text-slate-100/90 leading-relaxed text-lg">
                 To strengthen Nigeria's socio-economic development through effective management of Science, Technology, and Innovation by providing strategic research, policy support, capacity development, and technology-driven solutions.
               </p>
             </motion.div>
@@ -140,7 +141,7 @@ export default function About() {
                 { icon: Leaf, title: "Sustainability", desc: "Long-term national growth & systems." },
                 { icon: Zap, title: "Impact", desc: "Measurable outcomes for societal well-being." },
               ].map((value, idx) => (
-                <motion.div key={idx} variants={fadeInUp} className="bg-slate-800/50 border border-slate-700 p-6 rounded-[11px] hover:bg-slate-800 transition-colors">
+                <motion.div key={idx} variants={fadeInUp} className="bg-slate-800/50 border border-slate-700/60 p-6 rounded-2xl hover:bg-slate-800 hover:border-slate-600 transition-all duration-300 shadow-md">
                   <value.icon className="h-8 w-8 text-gold mb-4" />
                   <h4 className="font-bold mb-2 text-white">{value.title}</h4>
                   <p className="text-xs text-slate-400 leading-relaxed">{value.desc}</p>
@@ -166,7 +167,7 @@ export default function About() {
               { icon: Briefcase, title: "Capacity Building & Training", desc: "Delivering specialized training programmes, executive development courses, and institutional strengthening initiatives." },
               { icon: Globe, title: "Technology Foresight", desc: "Providing strategic intelligence and forecasting emerging trends shaping future economies." },
             ].map((focus, idx) => (
-              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-white p-8 rounded-[11px] border border-slate-200 shadow-sm hover:shadow-md transition-shadow group">
+              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-emerald-500/30 transition-all duration-300 group">
                 <div className="w-12 h-12 bg-emerald-50 border border-emerald-100 flex items-center justify-center rounded-sm mb-6 group-hover:bg-emerald-600 transition-colors">
                   <focus.icon className="w-6 h-6 text-emerald-600 group-hover:text-white transition-colors" />
                 </div>
@@ -202,7 +203,7 @@ export default function About() {
               "Research commercialization",
               "STI intelligence systems"
             ].map((impact, idx) => (
-              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-emerald-800/50 p-6 rounded-[11px] border border-emerald-700/50 flex flex-col items-center text-center hover:bg-emerald-800 transition-colors">
+              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-emerald-800/50 p-6 rounded-2xl border border-emerald-700/50 flex flex-col items-center text-center hover:bg-emerald-800 transition-all duration-300">
                 <CheckCircle2 className="h-6 w-6 text-gold mb-3" />
                 <p className="text-sm font-bold text-emerald-50 leading-snug">{impact}</p>
               </motion.div>
@@ -221,13 +222,13 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: "NACETEM AI Ecosystem", desc: "A collaborative platform promoting Artificial Intelligence development, research, policy engagement, and innovation partnerships in Nigeria.", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600" },
-              { title: "STI Dashboard Platform", desc: "A national intelligence platform designed to communicate and monitor Science, Technology, and Innovation outputs and indicators.", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600" },
-              { title: "NACETEM Digital Academy", desc: "An online learning and professional development platform focused on emerging technologies, leadership, and innovation management.", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600" },
-              { title: "Research Commercialization", desc: "Programs designed to bridge the gap between research outputs and industry adoption.", img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=600" },
-              { title: "Technology Foresight", desc: "Strategic future-oriented studies supporting national planning and technological preparedness.", img: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=600" }
+              { title: "NACETEM AI Ecosystem", desc: "A collaborative platform promoting Artificial Intelligence development, research, policy engagement, and innovation partnerships in Nigeria.", img: assets.aiEcosystemImage },
+              { title: "STI Dashboard Platform", desc: "A national intelligence platform designed to communicate and monitor Science, Technology, and Innovation outputs and indicators.", img: assets.dashboardImage },
+              { title: "NACETEM Digital Academy", desc: "An online learning and professional development platform focused on emerging technologies, leadership, and innovation management.", img: assets.digitalAcademyImage },
+              { title: "Research Commercialization", desc: "Programs designed to bridge the gap between research outputs and industry adoption.", img: assets.policyImage },
+              { title: "Technology Foresight", desc: "Strategic future-oriented studies supporting national planning and technological preparedness.", img: assets.seminarImage }
             ].map((initiative, idx) => (
-              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-50 border-[2.11px] border-slate-200 rounded-[11px] overflow-hidden group">
+              <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="bg-slate-50 border border-slate-200/80 rounded-2xl overflow-hidden group shadow-sm hover:shadow-md transition-all duration-300">
                 <div className="h-48 overflow-hidden relative">
                   <div className="absolute inset-0 bg-slate-900/10 z-10 group-hover:bg-transparent transition-colors duration-500"></div>
                   <img src={initiative.img} alt={initiative.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out" />
@@ -279,10 +280,10 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-12 items-center">
             <div className="md:w-1/3">
-              <div className="aspect-[3/4] relative rounded-[11px] overflow-hidden border-[2.11px] border-slate-200">
+              <div className="aspect-[3/4] relative rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm">
                 <img 
-                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80" 
-                  alt="Director General" 
+                  src={assets.ntaImage} 
+                  alt="NACETEM Director General interview" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -310,7 +311,7 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-serif mb-6">Why NACETEM?</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">Providing unmatched expertise in technology management and policy implementation.</p>
+            <p className="text-slate-100/80 max-w-2xl mx-auto">Providing unmatched expertise in technology management and policy implementation.</p>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -322,9 +323,9 @@ export default function About() {
               { title: "Capacity Development", desc: "Professional training and institutional strengthening programmes." },
               { title: "Research Excellence", desc: "Commitment to evidence-based analysis and impactful outcomes." },
             ].map((reason, idx) => (
-              <div key={idx} className="border border-slate-700 bg-slate-800 p-8 rounded-[11px] hover:border-emerald-500 transition-colors">
+              <div key={idx} className="border border-slate-700/60 bg-slate-800 p-8 rounded-2xl hover:border-emerald-500/50 transition-all duration-300 shadow-md">
                 <h4 className="text-lg font-serif text-gold mb-3">{reason.title}</h4>
-                <p className="text-sm text-slate-300 leading-relaxed">{reason.desc}</p>
+                <p className="text-sm text-slate-100/90 leading-relaxed">{reason.desc}</p>
               </div>
             ))}
           </div>

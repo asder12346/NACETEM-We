@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Phone, Mail, Clock, Send, Handshake, BookOpen, Headphones, Facebook, Linkedin, Twitter, Youtube, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -20,7 +21,7 @@ export default function Contact() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.headquartersImage} 
             alt="Contact NACETEM" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -36,7 +37,7 @@ export default function Contact() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white leading-tight mb-6">
               We Would Love to Hear From You
             </h1>
-            <p className="text-lg text-slate-300 mb-10 leading-relaxed">
+            <p className="text-lg text-slate-100/90 mb-10 leading-relaxed">
               Have questions, partnership inquiries, training requests, research collaborations, or need support? Reach out to our team and we will respond promptly.
             </p>
           </motion.div>
@@ -143,7 +144,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-serif mb-6">How Can We Help You?</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">Direct your inquiry to the right department for a faster response.</p>
+            <p className="text-slate-100/80 max-w-2xl mx-auto">Direct your inquiry to the right department for a faster response.</p>
           </div>
           
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -157,7 +158,7 @@ export default function Contact() {
                   <card.icon className="h-8 w-8 text-emerald-400" />
                 </div>
                 <h3 className="text-xl font-serif text-gold mb-4">{card.title}</h3>
-                <p className="text-sm text-slate-300 leading-relaxed">{card.desc}</p>
+                <p className="text-sm text-slate-100/90 leading-relaxed">{card.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -197,9 +198,9 @@ export default function Contact() {
               <p className="text-slate-600 mb-8 leading-relaxed">
                 Visit our office for inquiries, meetings, partnerships, and official engagements.
               </p>
-              <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-slate-200 rounded-[11px] border-[2.11px] border-slate-300 overflow-hidden relative grayscale hover:grayscale-0 transition-all duration-500">
+              <div className="w-full aspect-[16/9] sm:aspect-[21/9] bg-slate-200 rounded-2xl border border-slate-300 overflow-hidden relative transition-all duration-500">
                 {/* Fallback map visual since we don't have a real embed link, simulating a map with an image for presentation */}
-                <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=1200" alt="Map Location" className="w-full h-full object-cover" />
+                <img src={assets.headquartersImage} alt="NACETEM office location" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-slate-900/10"></div>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                    <div className="w-12 h-12 bg-emerald-600 rounded-full flex items-center justify-center shadow-lg border-4 border-white animate-bounce shadow-[0_10px_20px_rgba(0,0,0,0.2)]">

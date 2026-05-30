@@ -6,6 +6,8 @@ import Initiatives from './pages/Initiatives';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import News from './pages/News';
+import Events from './pages/Events';
+import Publications from './pages/Publications';
 import CapacityBuilding from './pages/CapacityBuilding';
 import PsrTest from './pages/PsrTest';
 import SeminarSeries from './pages/SeminarSeries';
@@ -34,11 +36,11 @@ export default function App() {
               <Route path="research/seminar-series" element={<SeminarSeries />} />
               <Route path="capacity-building" element={<CapacityBuilding />} />
               <Route path="gallery" element={<PlaceholderPage title="Gallery" description="Visual highlights from our events and programs." />} />
-              <Route path="events" element={<PlaceholderPage title="Events" description="Upcoming and past events." />} />
+              <Route path="events" element={<Events />} />
               <Route path="psr-test" element={<PsrTest />} />
               <Route path="initiatives" element={<Initiatives />} />
               <Route path="news" element={<News />} />
-              <Route path="publications" element={<PlaceholderPage title="Publications" description="Research publications and policy briefs." />} />
+              <Route path="publications" element={<Publications />} />
               <Route path="contact" element={<Contact />} />
               <Route path="*" element={<PlaceholderPage title="Page Not Found" description="The requested page could not be found." />} />
             </Route>

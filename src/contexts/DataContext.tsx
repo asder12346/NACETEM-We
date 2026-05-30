@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { assets } from '../assets';
 
 export interface GalleryImage {
   id: string;
@@ -26,9 +27,12 @@ interface DataContextType {
 }
 
 const defaultGallery: GalleryImage[] = [
-  { id: '1', url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80', title: 'Strategy Meeting' },
-  { id: '2', url: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80', title: 'STI Education Landscape' },
-  { id: '3', url: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800', title: 'Digital Academy' },
+  { id: '1', url: assets.bayelsaNewsImage, title: 'Institutional Engagement' },
+  { id: '2', url: assets.capacityImage, title: 'Capacity Development Session' },
+  { id: '3', url: assets.policyImage, title: 'STI Policy Programme' },
+  { id: '4', url: assets.seminarImage, title: 'Research Seminar Series' },
+  { id: '5', url: assets.dashboardImage, title: 'STI Intelligence Platform' },
+  { id: '6', url: assets.ntaImage, title: 'Media Engagement' },
 ];
 
 const defaultEvents: EventItem[] = [

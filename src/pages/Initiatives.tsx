@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Target, Activity, Users, Monitor, Shield, GraduationCap, ChevronRight, CheckCircle2, Globe, Building2, Quote, Database } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -16,32 +17,32 @@ const initiatives = [
   {
     title: "Public Service Rules Exam Prep Tool",
     desc: "AI-supported exam preparation platform designed to help public servants prepare effectively for promotion examinations.",
-    img: "https://images.unsplash.com/photo-1543269865-cbf427effbad?auto=format&fit=crop&q=80&w=600"
+    img: assets.psrImage
   },
   {
     title: "NACETEM AI-Ecosystem powered by Daimlas",
     desc: "A collaborative platform connecting AI stakeholders, research opportunities, innovation projects, and implementation support.",
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=600"
+    img: assets.aiEcosystemImage
   },
   {
     title: "NACETEM Digital Academy",
     desc: "Professional and academic learning programmes focused on digital skills, innovation, technology management, and institutional transformation.",
-    img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600"
+    img: assets.digitalAcademyImage
   },
   {
     title: "NACETEM Welding Initiative",
     desc: "A technical capacity-building initiative supporting welding excellence, certification readiness, and industrial skills development.",
-    img: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=600"
+    img: assets.weldingImage
   },
   {
     title: "Systems Dynamics and Systems Thinking",
     desc: "A strategic programme for understanding complex systems, improving policy analysis, and strengthening evidence-based decision-making.",
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600"
+    img: assets.seminarImage
   },
   {
     title: "STI Dashboard / STI Intelligence Platform",
     desc: "A data-driven platform for communicating science, technology, and innovation outputs for national planning and policy coordination.",
-    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
+    img: assets.dashboardImage
   }
 ];
 
@@ -52,7 +53,7 @@ export default function Initiatives() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.aiEcosystemImage} 
             alt="NACETEM Initiatives" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -61,7 +62,7 @@ export default function Initiatives() {
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Link to="/" className="inline-flex items-center text-slate-300 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
+          <Link to="/" className="inline-flex items-center text-slate-100 hover:text-white text-xs font-bold uppercase tracking-widest mb-8 transition-colors">
             <ArrowLeft className="h-3 w-3 mr-2" />
             Back to Home
           </Link>
@@ -72,7 +73,7 @@ export default function Initiatives() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white leading-tight mb-6">
               Driving Innovation Through Strategic National Initiatives
             </h1>
-            <div className="space-y-6 text-lg text-slate-300 leading-relaxed mb-10">
+            <div className="space-y-6 text-lg text-slate-100/90 leading-relaxed mb-10">
               <p>At NACETEM, our initiatives are designed to strengthen Nigeria’s Science, Technology, and Innovation ecosystem through digital transformation, strategic research, policy intelligence, professional development, and emerging technology adoption.</p>
               <p>These initiatives support government institutions, academia, industry, startups, researchers, public servants, and development partners by creating platforms that promote collaboration, innovation, knowledge management, and national competitiveness.</p>
               <p>Through these programmes, NACETEM continues to provide practical solutions that contribute to evidence-based policymaking, institutional strengthening, workforce development, and sustainable socio-economic growth.</p>
@@ -91,9 +92,9 @@ export default function Initiatives() {
           
           <div className="space-y-12">
             {initiatives.map((init, idx) => (
-               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeInUp} key={idx} className="bg-slate-50 border border-slate-200 flex flex-col md:flex-row overflow-hidden group rounded-[11px] hover:border-emerald-500 transition-colors">
+               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} variants={fadeInUp} key={idx} className="bg-slate-50 border border-slate-200/80 flex flex-col md:flex-row overflow-hidden group rounded-2xl hover:border-emerald-500/50 shadow-sm hover:shadow-md transition-all duration-300">
                  <div className="md:w-1/3 h-64 md:h-auto border-b md:border-b-0 md:border-r border-slate-200 relative overflow-hidden">
-                    <img src={init.img} alt={init.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" />
+                    <img src={init.img} alt={init.title} className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" />
                  </div>
                  <div className="p-8 md:p-12 md:w-2/3 flex flex-col justify-center">
                     <div className="w-12 h-1 bg-gold mb-6"></div>
@@ -115,10 +116,10 @@ export default function Initiatives() {
           <div className="flex flex-col lg:flex-row gap-16 items-center">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeInUp} className="lg:w-1/2">
               <h2 className="text-3xl sm:text-4xl font-serif mb-6 text-white">Why These Initiatives Matter</h2>
-              <p className="text-slate-300 mb-6 leading-relaxed text-lg">
+              <p className="text-slate-100/90 mb-6 leading-relaxed text-lg">
                 Nigeria’s development increasingly depends on the ability to harness technology, data, innovation, and institutional knowledge for national transformation.
               </p>
-              <p className="text-slate-300 mb-8 leading-relaxed">
+              <p className="text-slate-100/90 mb-8 leading-relaxed">
                 NACETEM’s featured initiatives were established to address key development challenges and foster a sustainable future.
               </p>
             </motion.div>
@@ -233,7 +234,7 @@ export default function Initiatives() {
                      "Innovation and Industrial Development Goals",
                      "Emerging Technology and AI Strategies"
                    ].map((item, idx) => (
-                     <div key={idx} className="flex items-center text-sm font-bold text-slate-300">
+                     <div key={idx} className="flex items-center text-sm font-bold text-slate-100/90">
                         <div className="w-1.5 h-1.5 bg-gold rounded-full mr-4 shrink-0"></div>
                         {item}
                      </div>
@@ -341,4 +342,3 @@ export default function Initiatives() {
     </div>
   );
 }
-

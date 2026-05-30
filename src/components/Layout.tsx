@@ -1,12 +1,47 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronRight, ChevronDown, Mail, Twitter, Facebook, ExternalLink } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, ChevronRight, ChevronDown, Mail, Twitter, Facebook, ArrowUp, User, Building2, Send, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { cn } from '../lib/utils';
 import { NacetemLogo } from './NacetemLogo';
 
 export default function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showNewsletterPopup, setShowNewsletterPopup] = useState(false);
+  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress((window.scrollY / totalHeight) * 100);
+      }
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const hasSeenNewsletter = window.sessionStorage.getItem('nacetem-newsletter-popup');
+    if (hasSeenNewsletter) return;
+
+    const timer = window.setTimeout(() => {
+      setShowNewsletterPopup(true);
+      window.sessionStorage.setItem('nacetem-newsletter-popup', 'shown');
+    }, 1400);
+
+    return () => window.clearTimeout(timer);
+  }, []);
+
+  const closeNewsletterPopup = () => {
+    setShowNewsletterPopup(false);
+  };
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -20,8 +55,8 @@ export default function Layout() {
     },
     { name: 'Capacity Building', href: '/capacity-building' },
     { name: 'PSR Test', href: '/psr-test' },
-    { name: 'Events', href: '/events' },
     { name: 'News', href: '/news' },
+    { name: 'Publications', href: '/publications' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -29,19 +64,13 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans text-slate-900 bg-slate-50">
-      {/* Top Bar */}
-      <div className="bg-slate-100 text-slate-600 text-xs py-2 px-4 sm:px-6 lg:px-8 border-b border-slate-200 flex justify-between items-center font-medium uppercase tracking-wider">
-        <span className="hidden sm:inline-block">Federal Ministry of Innovation, Science and Technology</span>
-        <span className="sm:hidden">FMIST Nigeria</span>
-        <div className="flex items-center space-x-4">
-          <Link to="/admin" className="hover:text-emerald-700 flex items-center transition-colors">
-            Staff Portal <ExternalLink className="w-3 h-3 ml-1" />
-          </Link>
-        </div>
-      </div>
-
       {/* Main Header */}
-      <header className="bg-slate-50 sticky top-0 z-50 border-b border-slate-200">
+      <header className="bg-slate-50/90 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/80 relative">
+        {/* Scroll Progress Bar */}
+        <div 
+          className="absolute bottom-0 left-0 h-[2px] bg-gold transition-all duration-75 z-50"
+          style={{ width: `${scrollProgress}%` }}
+        />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
             {/* Logo */}
@@ -57,14 +86,10 @@ export default function Layout() {
                     to={item.href}
                     className={cn(
                       'text-xs font-bold uppercase tracking-wider transition-colors inline-flex items-center',
-                      item.name === 'PSR Test'
-                        ? `px-4 py-2 rounded shadow-sm border ${isActive(item.href) ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600'}`
-                        : cn(
-                            'py-2 border-b-2',
-                            isActive(item.href) && !item.children
-                              ? 'border-emerald-600 text-slate-900 opacity-100'
-                              : 'border-transparent text-slate-900 opacity-70 hover:opacity-100 hover:border-slate-300'
-                          )
+                      'py-2 border-b-2',
+                      isActive(item.href) && !item.children
+                        ? 'border-emerald-600 text-slate-900 opacity-100'
+                        : 'border-transparent text-slate-900 opacity-70 hover:opacity-100 hover:border-slate-300'
                     )}
                   >
                     {item.name}
@@ -117,11 +142,9 @@ export default function Layout() {
                     }}
                     className={cn(
                       'flex items-center justify-between px-3 py-2 rounded-md text-base font-medium',
-                      item.name === 'PSR Test' 
-                        ? 'bg-emerald-600 text-white shadow-sm mt-2 font-bold tracking-wide uppercase text-sm'
-                        : isActive(item.href) && !item.children
-                          ? 'bg-emerald-50 text-emerald-800'
-                          : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-50'
+                      isActive(item.href) && !item.children
+                        ? 'bg-emerald-50 text-emerald-800'
+                        : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-50'
                     )}
                   >
                     {item.name}
@@ -243,12 +266,146 @@ export default function Layout() {
             <p>
               &copy; {new Date().getFullYear()} NACETEM. All rights reserved.
             </p>
-            <div className="mt-4 sm:mt-0">
-              <Link to="/admin" className="hover:text-white transition-colors">Admin Login</Link>
-            </div>
           </div>
         </div>
       </footer>
+
+      {/* Floating Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 z-50 bg-emerald-600 hover:bg-emerald-700 text-white p-3.5 rounded-full shadow-2xl hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-emerald-500/30 transition-all duration-300 transform scale-100 hover:scale-110 active:scale-95 group flex items-center justify-center cursor-pointer"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp className="h-5 w-5 transform group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      )}
+
+      {showNewsletterPopup && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center px-4 py-6">
+          <button
+            type="button"
+            aria-label="Close newsletter popup"
+            onClick={closeNewsletterPopup}
+            className="absolute inset-0 bg-slate-900/65 backdrop-blur-sm"
+          />
+          <div className="relative w-full max-w-3xl overflow-hidden rounded-[28px] bg-white shadow-2xl border border-white/70">
+            <button
+              type="button"
+              onClick={closeNewsletterPopup}
+              className="absolute right-4 top-4 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-slate-600 shadow-sm border border-slate-200 hover:text-emerald-700 hover:border-emerald-200 transition-colors"
+              aria-label="Close newsletter form"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
+              <div className="relative min-h-[260px] bg-slate-900 p-8 sm:p-10 text-white overflow-hidden">
+                <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full border-[28px] border-emerald-500/20"></div>
+                <div className="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-emerald-500/15 blur-3xl"></div>
+                <NacetemLogo variant="light" />
+                <div className="relative mt-12">
+                  <p className="text-[10px] uppercase tracking-widest font-bold text-gold mb-4">NACETEM Newsletter</p>
+                  <h2 className="text-3xl sm:text-4xl font-serif leading-tight mb-5">Stay close to STI updates.</h2>
+                  <p className="text-sm leading-7 text-white/72">
+                    Get updates on NACETEM programmes, research, policy briefs, training opportunities, and innovation activities.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-8 sm:p-10">
+                {newsletterSubmitted ? (
+                  <div className="min-h-[360px] flex flex-col items-center justify-center text-center">
+                    <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                      <CheckCircle2 className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-3xl font-serif text-slate-900 mb-4">Thank you for joining.</h3>
+                    <p className="text-sm text-slate-600 leading-7 max-w-sm">
+                      Your details have been received. You will now get NACETEM newsletter updates and programme announcements.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={closeNewsletterPopup}
+                      className="mt-8 inline-flex items-center justify-center rounded-[8px] bg-emerald-600 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-emerald-700 transition-colors"
+                    >
+                      Continue Browsing
+                    </button>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="text-3xl font-serif text-slate-900 mb-3">Join Our Newsletter</h3>
+                    <p className="text-sm text-slate-600 leading-7 mb-8">
+                      Fill in your details to receive periodical updates about NACETEM activities, publications, and events.
+                    </p>
+
+                    <form
+                      className="space-y-5"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        setNewsletterSubmitted(true);
+                      }}
+                    >
+                      <div>
+                        <label htmlFor="newsletter-name" className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+                          Full Name
+                        </label>
+                        <div className="relative">
+                          <User className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                          <input
+                            id="newsletter-name"
+                            type="text"
+                            required
+                            placeholder="Your full name"
+                            className="w-full rounded-[8px] border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/10"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="newsletter-email" className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+                          Email Address
+                        </label>
+                        <div className="relative">
+                          <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                          <input
+                            id="newsletter-email"
+                            type="email"
+                            required
+                            placeholder="you@example.com"
+                            className="w-full rounded-[8px] border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/10"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="newsletter-organization" className="block text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2">
+                          Organization
+                        </label>
+                        <div className="relative">
+                          <Building2 className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                          <input
+                            id="newsletter-organization"
+                            type="text"
+                            placeholder="Institution, agency, or company"
+                            className="w-full rounded-[8px] border border-slate-200 bg-slate-50 py-3.5 pl-11 pr-4 text-sm text-slate-900 outline-none transition-colors focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/10"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="inline-flex w-full items-center justify-center rounded-[8px] bg-emerald-600 px-6 py-4 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-emerald-900/10 hover:bg-emerald-700 transition-colors"
+                      >
+                        <Send className="mr-2 h-4 w-4" /> Join Newsletter
+                      </button>
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

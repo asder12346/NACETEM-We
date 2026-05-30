@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FileText, ArrowRight, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -35,7 +36,7 @@ export default function PsrTest() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1546410531-ea4cea477149?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.psrImage} 
             alt="PSR Test Portal" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -51,7 +52,7 @@ export default function PsrTest() {
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white leading-tight mb-8">
               PSR Test
             </h1>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed font-light mx-auto max-w-3xl">
+            <p className="text-xl text-slate-100/90 mb-10 leading-relaxed font-light mx-auto max-w-3xl">
               Bridging the Gap Between Technology, Innovation, and Policy for Nigeria’s Sustainable Development.
             </p>
           </motion.div>

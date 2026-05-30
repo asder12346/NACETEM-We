@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Calendar, MapPin, ChevronRight, ChevronLeft, BookOpen, Users, Activity, Monitor, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -20,56 +21,56 @@ const newsArticles = [
     category: "Government Collaboration",
     date: "October 15, 2026",
     content: "NACETEM South-South Zonal Office recently engaged the Bayelsa State Ministry of Communications, Science and Technology in strategic discussions aimed at strengthening Science, Technology, and Innovation (STI) development within the state. The engagement focused on STI policy implementation, technical skills mapping, innovation ecosystem development, digital transformation strategies, and capacity building for public institutions. The collaboration is expected to support evidence-based governance and innovation-driven development across Bayelsa State.",
-    img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800"
+    img: assets.bayelsaNewsImage
   },
   {
     title: "NACETEM DG/CEO Speaks on Artificial Intelligence and Nigeria’s Future on NTA International",
     category: "Artificial Intelligence",
     date: "October 10, 2026",
     content: "The Director-General/CEO of NACETEM, Dr. Olushola Odusanya, featured on NTA International’s “Issues of the Moment” programme to discuss the future of Artificial Intelligence in Nigeria. The discussion explored AI opportunities in governance, emerging risks and ethical concerns, AI-driven public sector transformation, national readiness for AI adoption, and innovation and digital competitiveness. The interview reinforces NACETEM’s commitment to advancing responsible and strategic AI adoption in Nigeria.",
-    img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"
+    img: assets.ntaImage
   },
   {
     title: "NACETEM Advances STI Education Through Strategic Academic Partnerships",
     category: "Education & Capacity Development",
     date: "October 5, 2026",
     content: "NACETEM signed a collaborative Memorandum of Understanding with the Federal University of Technology Minna and Neuro-Linguistic Programming Ltd. to strengthen STI education and professional capacity development in Nigeria. The partnership aims to enhance postgraduate STI programmes, promote innovation-driven education, expand technology management training, improve industry-academia collaboration, and support national innovation capacity. This initiative represents another milestone in strengthening Nigeria’s knowledge economy.",
-    img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800"
+    img: assets.news1Image
   },
   {
     title: "NACETEM Expands Digital Capacity Development Programmes",
     category: "Capacity Building",
     date: "September 28, 2026",
     content: "NACETEM continues to expand its professional training programmes through specialized courses in Technology Management, Digital Marketing and Strategy, Nanoscience and Nanotechnology, Innovation Management, and STI Policy Studies. These programmes are designed to equip professionals, researchers, and public servants with future-ready digital and innovation skills required in today’s rapidly evolving economy.",
-    img: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=800"
+    img: assets.capacityImage
   },
   {
     title: "Strengthening Nigeria’s STI Intelligence Through Data and Research",
     category: "Research & Policy",
     date: "September 20, 2026",
     content: "NACETEM continues to strengthen Nigeria’s Science, Technology, and Innovation intelligence systems through the development of STI indicators, innovation surveys, and research analytics platforms. The Centre’s STI Dashboard initiative supports evidence-based national planning, research data management, innovation ecosystem monitoring, policy evaluation, and national competitiveness analysis. The platform contributes significantly to strategic decision-making and policy coordination in Nigeria.",
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+    img: assets.dashboardImage
   },
   {
     title: "NACETEM Launches New Innovation Hub in Abuja",
     category: "Infrastructure",
     date: "September 10, 2026",
     content: "The National Centre for Technology Management has officially opened its new Innovation Hub in Abuja, providing state-of-the-art facilities for researchers, tech entrepreneurs, and policymakers to collaborate on emerging technologies.",
-    img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=800"
+    img: assets.headquartersImage
   },
   {
     title: "National Conference on Science and Technology Policy Concludes",
     category: "Conferences",
     date: "August 25, 2026",
     content: "The annual National Conference on Science and Technology Policy, hosted by NACETEM, concluded today with far-reaching recommendations for enhancing indigenous technology development and digital inclusion across Nigeria.",
-    img: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=800"
+    img: assets.policyImage
   },
   {
     title: "NACETEM Partners with International Tech Firms to Boost Local Capacity",
     category: "Partnerships",
     date: "August 12, 2026",
     content: "In a bid to enhance local technological capacity, NACETEM has formalized partnerships with several leading international tech firms. The agreements will provide advanced training programs for Nigerian youth in software engineering and data science.",
-    img: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=800"
+    img: assets.aiEcosystemImage
   }
 ];
 
@@ -113,7 +114,7 @@ export default function News() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.bayelsaNewsImage} 
             alt="News and Events" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -129,7 +130,7 @@ export default function News() {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white leading-tight mb-6">
               Institutional Updates
             </h1>
-            <p className="text-lg text-slate-300 mb-10 leading-relaxed text-left mx-auto max-w-2xl text-center">
+            <p className="text-lg text-slate-100/90 mb-10 leading-relaxed text-left mx-auto max-w-2xl text-center">
               Stay informed with the latest activities, strategic engagements, research breakthroughs, training programmes, innovation initiatives, and institutional developments from NACETEM.
               <br /><br />
               Explore how NACETEM continues to drive Science, Technology, and Innovation for sustainable national development through partnerships, digital transformation, policy research, and capacity development initiatives.
@@ -213,7 +214,7 @@ export default function News() {
         </div>
       </section>
 
-      {/* 3. Upcoming Events (Dynamic Data from Admin Panel) */}
+      {/* 3. Upcoming Events */}
       <section className="py-24 bg-slate-50 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
            <div className="text-center max-w-3xl mx-auto mb-16">
@@ -268,7 +269,7 @@ export default function News() {
                    {extraHeadlines.map((headline, idx) => (
                      <div key={idx} className="flex border-b border-slate-700 pb-6 last:border-0 last:pb-0 group cursor-pointer">
                         <div className="w-2 h-2 rounded-full bg-slate-600 mt-2 mr-4 shrink-0 group-hover:bg-emerald-400 transition-colors"></div>
-                        <p className="text-[15px] leading-relaxed text-slate-300 group-hover:text-white transition-colors">{headline}</p>
+                        <p className="text-[15px] leading-relaxed text-slate-100/90 group-hover:text-white transition-colors">{headline}</p>
                      </div>
                    ))}
                 </div>

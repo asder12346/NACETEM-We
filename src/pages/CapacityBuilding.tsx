@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, GraduationCap, MapPin, ChevronRight, BookOpen, Microscope, Globe } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { assets } from '../assets';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -21,7 +22,7 @@ const programs = [
     locations: ["Ile Ife", "Lagos Study Centre", "Abuja Study Centre", "Bayelsa Study Centre", "Enugu Study Centre"],
     iconColor: "text-emerald-500",
     bgLight: "bg-emerald-50",
-    img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=800"
+    img: assets.pgdImage
   },
   {
     icon: BookOpen,
@@ -30,7 +31,7 @@ const programs = [
     locations: [],
     iconColor: "text-blue-500",
     bgLight: "bg-blue-50",
-    img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=800"
+    img: assets.capacityImage
   },
   {
     icon: Microscope,
@@ -39,7 +40,7 @@ const programs = [
     locations: [],
     iconColor: "text-purple-500",
     bgLight: "bg-purple-50",
-    img: "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=800"
+    img: assets.seminarImage
   },
   {
     icon: Globe,
@@ -48,7 +49,7 @@ const programs = [
     locations: [],
     iconColor: "text-orange-500",
     bgLight: "bg-orange-50",
-    img: "https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&q=80&w=800"
+    img: assets.digitalAcademyImage
   }
 ];
 
@@ -59,7 +60,7 @@ export default function CapacityBuilding() {
       <section className="relative pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-900 border-b-8 border-gold">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=2000" 
+            src={assets.capacityImage} 
             alt="Capacity Building" 
             className="w-full h-full object-cover opacity-30 mix-blend-overlay"
             loading="lazy"
@@ -75,7 +76,7 @@ export default function CapacityBuilding() {
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif text-white leading-tight mb-8">
               Capacity Building
             </h1>
-            <p className="text-xl text-slate-300 mb-10 leading-relaxed font-light mx-auto max-w-3xl">
+            <p className="text-xl text-slate-100/90 mb-10 leading-relaxed font-light mx-auto max-w-3xl">
               Bridging the Gap Between Technology, Innovation, and Policy for Nigeria’s Sustainable Development.
             </p>
           </motion.div>

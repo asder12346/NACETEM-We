@@ -24,7 +24,7 @@ export default function PlaceholderPage({ title, description }: { title: string,
               This section of the NACETEM portal provides comprehensive information, resources, and institutional insights specifically aligned with our mandate for national innovation and technology management.
             </p>
             <div className="bg-slate-50 p-6 border border-slate-200 text-slate-600 text-xs leading-relaxed">
-              <p>Content for this page is currently managed via the administrative dashboard and will be updated in accordance with the latest Federal Ministry of Innovation, Science and Technology directives.</p>
+              <p>Content for this page will be updated in accordance with the latest Federal Ministry of Innovation, Science and Technology directives.</p>
             </div>
           </div>
         </div>
