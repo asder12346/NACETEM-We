@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ArrowRight, Target, Lightbulb, Shield, Users, Leaf, Zap, BookOpen, Monitor, Award, Briefcase, ChevronRight, CheckCircle2, Globe, Building2, GraduationCap, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { assets } from '../assets';

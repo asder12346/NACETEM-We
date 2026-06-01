@@ -1,5 +1,5 @@
 import { ArrowRight, BookOpen, Download, FileText, Layers } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { assets } from '../assets';
 
 const fadeInUp = {

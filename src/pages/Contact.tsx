@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ArrowRight, MapPin, Phone, Mail, Clock, Send, Handshake, BookOpen, Headphones, Facebook, Linkedin, Twitter, Youtube, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { assets } from '../assets';

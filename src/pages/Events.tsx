@@ -1,5 +1,5 @@
 import { Calendar, Clock, MapPin, Video } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { assets } from '../assets';
 import { useData } from '../contexts/DataContext';
 

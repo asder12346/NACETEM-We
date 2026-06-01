@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { Download, Calendar, MapPin, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { assets } from '../assets';

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Target, Activity, Users, Monitor, Shield, GraduationCap, ChevronRight, CheckCircle2, Globe, Building2, Quote, Database } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { assets } from '../assets';
 
 const fadeInUp = {

@@ -7,6 +7,7 @@ import About from './pages/About';
 import Contact from './pages/Contact';
 import News from './pages/News';
 import Events from './pages/Events';
+import Gallery from './pages/Gallery';
 import Publications from './pages/Publications';
 import CapacityBuilding from './pages/CapacityBuilding';
 import PsrTest from './pages/PsrTest';
@@ -35,7 +36,7 @@ export default function App() {
               <Route path="research" element={<PlaceholderPage title="Research" description="Our ongoing research initiatives." />} />
               <Route path="research/seminar-series" element={<SeminarSeries />} />
               <Route path="capacity-building" element={<CapacityBuilding />} />
-              <Route path="gallery" element={<PlaceholderPage title="Gallery" description="Visual highlights from our events and programs." />} />
+              <Route path="gallery" element={<Gallery />} />
               <Route path="events" element={<Events />} />
               <Route path="psr-test" element={<PsrTest />} />
               <Route path="initiatives" element={<Initiatives />} />

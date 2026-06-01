@@ -72,7 +72,7 @@ export function Login() {
 
 export function AdminDashboard() {
   const { logout } = useAuth();
-  const { gallery, addGalleryImage, removeGalleryImage, events, addEvent, removeEvent, isLoading } = useData();
+  const { gallery, addGalleryImage, removeGalleryImage, events, addEvent, removeEvent, news, addNewsArticle, removeNewsArticle, isLoading } = useData();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('Overview');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -85,6 +85,11 @@ export function AdminDashboard() {
   const [newEventDate, setNewEventDate] = useState('');
   const [newEventLocation, setNewEventLocation] = useState('');
   const [newEventDescription, setNewEventDescription] = useState('');
+  const [newNewsTitle, setNewNewsTitle] = useState('');
+  const [newNewsCategory, setNewNewsCategory] = useState('');
+  const [newNewsDate, setNewNewsDate] = useState('');
+  const [newNewsImage, setNewNewsImage] = useState('');
+  const [newNewsContent, setNewNewsContent] = useState('');
 
   const handleLogout = () => {
     logout();
@@ -152,6 +157,25 @@ export function AdminDashboard() {
       setNewEventDate('');
       setNewEventLocation('');
       setNewEventDescription('');
+    }
+  };
+
+  const handleAddNews = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newNewsTitle && newNewsCategory && newNewsDate && newNewsImage && newNewsContent) {
+      addNewsArticle({
+        id: Date.now().toString(),
+        title: newNewsTitle,
+        category: newNewsCategory,
+        date: newNewsDate,
+        img: newNewsImage,
+        content: newNewsContent,
+      });
+      setNewNewsTitle('');
+      setNewNewsCategory('');
+      setNewNewsDate('');
+      setNewNewsImage('');
+      setNewNewsContent('');
     }
   };
 
@@ -272,7 +296,7 @@ export function AdminDashboard() {
                   </div>
                   <div>
                     <p className="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">News Articles</p>
-                    <h3 className="text-2xl font-serif text-slate-900">24</h3>
+                    <h3 className="text-2xl font-serif text-slate-900">{news.length}</h3>
                   </div>
                 </div>
                 <div className="bg-white p-6 border border-slate-200 flex items-center space-x-4">
@@ -437,10 +461,88 @@ export function AdminDashboard() {
           )}
 
           {activeTab === 'News Manager' && (
-            <div className="bg-white border border-slate-200 p-16 text-center rounded-[11px]">
-              <FileText className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-              <h2 className="text-xl font-serif text-slate-900 mb-2">News Content Manager</h2>
-              <p className="text-sm text-slate-500 max-w-md mx-auto">This module is being set up to allow adding, editing, and managing news articles and publications.</p>
+            <div className="space-y-8">
+              <div className="bg-white border border-slate-200 p-6">
+                <h2 className="text-lg font-serif text-slate-900 mb-4">Add News Article</h2>
+                <form onSubmit={handleAddNews} className="space-y-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <input
+                      type="text"
+                      placeholder="News Title"
+                      value={newNewsTitle}
+                      onChange={(e) => setNewNewsTitle(e.target.value)}
+                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Category"
+                      value={newNewsCategory}
+                      onChange={(e) => setNewNewsCategory(e.target.value)}
+                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Date (e.g., October 15, 2026)"
+                      value={newNewsDate}
+                      onChange={(e) => setNewNewsDate(e.target.value)}
+                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
+                      required
+                    />
+                    <input
+                      type="url"
+                      placeholder="Image URL"
+                      value={newNewsImage}
+                      onChange={(e) => setNewNewsImage(e.target.value)}
+                      className="w-full px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col lg:flex-row gap-4 items-start">
+                    <textarea
+                      placeholder="Article Content"
+                      value={newNewsContent}
+                      onChange={(e) => setNewNewsContent(e.target.value)}
+                      className="w-full lg:flex-1 h-32 px-4 py-3 border border-slate-300 text-sm focus:outline-none focus:border-emerald-700 bg-slate-50 resize-none"
+                      required
+                    ></textarea>
+                    <button type="submit" className="w-full lg:w-auto lg:self-stretch bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 text-xs font-bold uppercase tracking-widest flex items-center justify-center transition-colors shrink-0">
+                      <Plus className="w-4 h-4 mr-2" /> Add Article
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {news.map((article) => (
+                  <div key={article.id} className="bg-white border border-slate-200 overflow-hidden group">
+                    <div className="grid grid-cols-1 sm:grid-cols-[180px_1fr]">
+                      <div className="h-48 sm:h-full bg-slate-900 overflow-hidden">
+                        <img src={article.img} alt={article.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-5 relative">
+                        <button
+                          onClick={() => removeNewsArticle(article.id)}
+                          className="absolute top-4 right-4 text-slate-400 hover:text-red-600 transition-colors bg-white p-2 border border-slate-200 rounded-full"
+                          title="Remove article"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-gold mb-2 pr-12">{article.category}</p>
+                        <h3 className="text-lg font-serif text-slate-900 leading-snug mb-2 pr-10">{article.title}</h3>
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">{article.date}</p>
+                        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3">{article.content}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {news.length === 0 && (
+                  <div className="col-span-full py-12 text-center text-slate-500 border border-dashed border-slate-300 bg-white">
+                    No news articles. Add one above.
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
