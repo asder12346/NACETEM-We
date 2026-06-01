@@ -55,6 +55,7 @@ export default function Layout() {
     },
     { name: 'Capacity Building', href: '/capacity-building' },
     { name: 'PSR Test', href: '/psr-test' },
+    { name: 'Gallery', href: '/gallery' },
     { name: 'News', href: '/news' },
     { name: 'Publications', href: '/publications' },
     { name: 'Contact', href: '/contact' },

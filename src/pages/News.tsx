@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Calendar, MapPin, ChevronRight, ChevronLeft, BookOpen, Users, Activity, Monitor, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useData } from '../contexts/DataContext';
@@ -95,9 +95,10 @@ const researchHighlights = [
 ];
 
 export default function News() {
-  const { events } = useData();
+  const { events, news } = useData();
   const [currentPage, setCurrentPage] = useState(1);
   const articlesPerPage = 6;
+  const newsArticles = news;
 
   const totalPages = Math.ceil(newsArticles.length / articlesPerPage);
   const startIndex = (currentPage - 1) * articlesPerPage;
